@@ -8,17 +8,17 @@ import {
   View,
   SafeAreaView,
 } from 'react-native';
-// import {Picker} from '@react-native-picker/picker';
 import {Header, Icon} from 'react-native-elements';
 import {Dropdown} from 'react-native-element-dropdown';
 import ImagePicker from 'react-native-image-picker';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
-import AudioRecord from 'react-native-audio-record';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+// import AudioRecord from 'react-native-audio-record';
+// import { createDrawerNavigator } from '@react-navigation/drawer';
 import Login from './Login.js';
 
-const Drawer = createDrawerNavigator();
+import {useNavigation} from '@react-navigation/native';
 
+// const Drawer = createDrawerNavigator();
 
 const data = [
   {label: 'Earthquake', value: 'Earthquake'},
@@ -31,13 +31,32 @@ const data = [
   {label: 'LandSlides', value: 'LandSlides'},
 ];
 
+// import {initializeApp} from 'firebase/app';
+// import {getFirestore} from 'firebase/firestore';
+// import {collection, addDoc} from 'firebase/firestore';
+
+// const app = initializeApp(firebaseConfig);
+
+// const db = getFirestore(app);
+
+// const firebaseConfig = {
+//   apiKey: 'AIzaSyC6Kl26Y1kY35DRudHAsXA9EjHE0zu4Wvo',
+//   authDomain: 'disaster-data-extraction.firebaseapp.com',
+//   databaseURL: 'https://disaster-data-extraction-default-rtdb.firebaseio.com',
+//   projectId: 'disaster-data-extraction',
+//   storageBucket: 'disaster-data-extraction.appspot.com',
+//   messagingSenderId: '403244136343',
+//   appId: '1:403244136343:web:90b7b6190ee0e49533b6d2',
+//   measurementId: 'G-HMEZSZZ1DX',
+// };
+
 const User = () => {
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState('');
   const [isFocus, setIsFocus] = useState(false);
   const [avatar, setAvatar] = useState(null);
   const [image, setImage] = useState('');
 
-  const [location, setLocation] = useState('Location');
+  const navigation = useNavigation();
 
   const selectImage = () => {
     const options = {
@@ -63,67 +82,39 @@ const User = () => {
     });
   };
 
-  const options = {
-    sampleRate: 16000,  // default 44100
-    channels: 1,        // 1 or 2, default 1
-    bitsPerSample: 16,  // 8 or 16, default 16
-    audioSource: 6,     // android only 
-    wavFile: 'test.wav' // default 'audio.wav'
-  };
-
-  const onStartRecord = async () => {
-    const path = 'hello.m4a';
-    const audioSet = {
-      AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
-      AudioSourceAndroid: AudioSourceAndroidType.MIC,
-      AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.high,
-      AVNumberOfChannelsKeyIOS: 2,
-      AVFormatIDKeyIOS: AVEncodingOption.aac,
-    };
-    console.log('audioSet', audioSet);
-    const uri = await this.audioRecorderPlayer.startRecorder(path, audioSet);
-    this.audioRecorderPlayer.addRecordBackListener(e => {
-      this.setState({
-        recordSecs: e.current_position,
-        recordTime: this.audioRecorderPlayer.mmssss(
-          Math.floor(e.current_position),
-        ),
-      });
-    });
-    console.log(`uri: ${uri}`);
-  };
-
-  AudioRecord.init(options);
-
 
   return (
     <SafeAreaView>
       <ScrollView>
         <View style={{height: 1100}}>
           <Header
-            leftComponent={{ text: 'NDRF', style:{color: '#fff' ,fontSize: 20}}}
+            leftComponent={{text: 'User', style: {color: '#fff', fontSize: 20}}}
             containerStyle={{
               backgroundColor: '#03045E',
               justifyContent: 'space-around',
               textColor: '#ffffff',
             }}
           />
-          <Drawer.Navigator>
-            <Drawer.Screen name="Login" component={Login} />
-          </Drawer.Navigator>
-          <Text style={styles.location}>{location}</Text>
-          <View style={{marginLeft: 50,marginRight:50,top: 50,}}>
+
+          <Text style={styles.location}></Text>
+          <View style={{marginLeft: 50, marginRight: 50, top: 50}}>
             <Text>{image.uri}</Text>
           </View>
           <View style={styles.imageUploadContainer}>
-          <TouchableOpacity style={styles.uploadImage} onPress={selectImage}>
-            <Text style={{marginTop: 5,fontSize: 15,color:'white'}}>Upload Image</Text>
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.uploadImage} onPress={selectImage}>
+              <Text style={{marginTop: 5, fontSize: 15, color: 'white'}}>
+                Upload Image
+              </Text>
+            </TouchableOpacity>
           </View>
-          <View style={[styles.imageUploadContainer, {marginTop:60,}]}>
-          <TouchableOpacity style={[styles.uploadImage]} onPress={selectImage}>
-            <Text style={{marginTop: 5,fontSize: 15,color:'white'}}>Upload Audio</Text>
-          </TouchableOpacity>
+          <View style={[styles.imageUploadContainer, {marginTop: 60}]}>
+            <TouchableOpacity
+              style={[styles.uploadImage]}
+              onPress={selectImage}>
+              <Text style={{marginTop: 5, fontSize: 15, color: 'white'}}>
+                Upload Audio
+              </Text>
+            </TouchableOpacity>
           </View>
           {/* <TouchableOpacity style={styles.uploadAudio} >
             <Text style={{marginTop: 5,fontSize: 15}}>Upload Audio</Text>
@@ -134,18 +125,15 @@ const User = () => {
             placeholder="Select Disaster"
             onChange={item => {
               setValue(item.value);
-              setIsFocus(false);
+              console.log(value);
             }}
             labelField="label"
-            selectedTextStyle={{color:'#191F36'}}
+            selectedTextStyle={{color: '#191F36'}}
             valueField="value"
             style={[styles.dropdown, isFocus && {borderColor: 'gray'}]}
           />
           <Text style={styles.people}>Number of people involved</Text>
-          <TextInput
-            style={styles.dropdown2}
-            placeholder=""
-          />
+          <TextInput style={styles.dropdown2} placeholder="" />
           <Text style={styles.additional}>
             Additional Information / Requirements
           </Text>
@@ -153,8 +141,10 @@ const User = () => {
             style={styles.requirements}
             placeholder="Additional Information"
           />
-          <TouchableOpacity style={styles.submit}>
-            <Text style={{color: 'white', marginTop: 7,fontSize: 15}}>Submit</Text>
+          <TouchableOpacity style={styles.submit} >
+            <Text style={{color: 'white', marginTop: 7, fontSize: 15}}>
+              Submit
+            </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -218,7 +208,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     borderRadius: 60,
     paddingLeft: 20,
-    color:'blue',
+    color: '#010725',
   },
   submit: {
     width: 300,
@@ -239,23 +229,25 @@ const styles = StyleSheet.create({
   people: {
     top: 210,
     left: 65,
-    fontSize: 17,color: '#010725',
+    fontSize: 17,
+    color: '#010725',
   },
   additional: {
     top: 260,
     left: 65,
-    fontSize: 17,color: '#010725',
+    fontSize: 17,
+    color: '#010725',
   },
   imageUploadContainer: {
-width: 300,
-height: 157,
-left: 50,
-top: 92,
-borderWidth: 1,
-borderRadius: 8,
-borderColor: '#7a7a7a',
-alignItems: 'center',
-  }
+    width: 300,
+    height: 157,
+    left: 50,
+    top: 92,
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: '#7a7a7a',
+    alignItems: 'center',
+  },
 });
 
 export default User;

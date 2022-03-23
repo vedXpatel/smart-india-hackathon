@@ -15,7 +15,9 @@ import {Header, Icon} from 'react-native-elements';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-const Login = () => {
+const Suggestion = (props) => {
+  const {otherParam} = props.route.params;
+
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -41,7 +43,7 @@ const Login = () => {
       />
       <Text style={styles.recorded}> Your response has been recorded </Text>
       <Text style={styles.recorded1}>
-        Till we arrive, we suggest you to follow these steps
+        In the event of {otherParam} , we suggest you to follow these steps
       </Text>
       <Text style={styles.arr0}> {suggestionArray[0]} </Text>
       <Text style={styles.arr1}> {suggestionArray[1]} </Text>
@@ -59,7 +61,6 @@ const styles = StyleSheet.create({
     right: 30,
     top: 100,
     fontFamily: 'Inter-Regular',
-    fontWeight: 'regular',
     fontSize: 18,
     lineHeight: 20,
     letterSpacing: 0.374,
@@ -71,7 +72,6 @@ const styles = StyleSheet.create({
     marginLeft: 17,
     top: 145,
     fontFamily: 'Inter-Regular',
-    fontWeight: 'regular',
     fontSize: 15,
     lineHeight: 20,
     letterSpacing: 0.374,
@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
     left: 15,
     top: 218,
     fontFamily: 'Inter-Regular',
-    fontWeight: 'regular',
     fontSize: 15,
     lineHeight: 20,
     letterSpacing: 0.374,
@@ -95,7 +94,6 @@ const styles = StyleSheet.create({
     left: 15,
     top: 300,
     fontFamily: 'Inter-Regular',
-    fontWeight: 'regular',
     fontSize: 15,
     lineHeight: 20,
     letterSpacing: 0.374,
@@ -107,7 +105,6 @@ const styles = StyleSheet.create({
     left: 15,
     top: 400,
     fontFamily: 'Inter-Regular',
-    fontWeight: 'regular',
     fontSize: 15,
     lineHeight: 20,
     letterSpacing: 0.374,
@@ -119,7 +116,6 @@ const styles = StyleSheet.create({
     left: 15,
     top: 500,
     fontFamily: 'Inter-Regular',
-    fontWeight: 'regular',
     fontSize: 15,
     lineHeight: 20,
     letterSpacing: 0.374,
@@ -131,7 +127,6 @@ const styles = StyleSheet.create({
     left: 15,
     top: 600,
     fontFamily: 'Inter-Regular',
-    fontWeight: 'regular',
     fontSize: 15,
     lineHeight: 20,
     letterSpacing: 0.374,
@@ -139,4 +134,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default Suggestion;
