@@ -1,17 +1,18 @@
-import * as firebase from 'firebase';
-import firestore from 'firebase/firestore'
+import {initializeApp} from "firebase/app";
+import {getAuth} from "firebase/auth";
+import {getFirestore} from 'firebase/firestore/lite';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyC6Kl26Y1kY35DRudHAsXA9EjHE0zu4Wvo",
-    authDomain: "disaster-data-extraction.firebaseapp.com",
-    databaseURL: "https://disaster-data-extraction-default-rtdb.firebaseio.com",
-    projectId: "disaster-data-extraction",
-    storageBucket: "disaster-data-extraction.appspot.com",
-    messagingSenderId: "403244136343",
-    appId: "1:403244136343:web:90b7b6190ee0e49533b6d2",
-    measurementId: "G-HMEZSZZ1DX"
-};
+    apiKey: "AIzaSyDxYeB3JuGsLU5vXIfW8M06cZdR8QilnOA",
+    authDomain: "smat-d54a1.firebaseapp.com",
+    projectId: "smat-d54a1",
+    storageBucket: "smat-d54a1.appspot.com",
+    messagingSenderId: "336286861699",
+    appId: "1:336286861699:web:8e5505085ead2c03a98eb6",
+    measurementId: "G-PNP4C458HB"
+  };
 
-firebase.initializeApp(firebaseConfig);
-firebase.firestore();
-export default firebase;
+const  app = initializeApp(firebaseConfig);
+
+// export const authentication = getAuth(app);
+export const db = getFirestore(app);

@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -11,35 +11,19 @@ import {
   Button,
   TouchableOpacity,
 } from 'react-native';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 // import { withNavigation } from 'react-navigation';
 
 import {useNavigation} from '@react-navigation/native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDxYeB3JuGsLU5vXIfW8M06cZdR8QilnOA",
-  authDomain: "smat-d54a1.firebaseapp.com",
-  projectId: "smat-d54a1",
-  storageBucket: "smat-d54a1.appspot.com",
-  messagingSenderId: "336286861699",
-  appId: "1:336286861699:web:8e5505085ead2c03a98eb6",
-  measurementId: "G-PNP4C458HB"
-};
-firebase.initializeApp(firebaseConfig);
-
 const Login = () => {
   const isDarkMode = useColorScheme() === 'dark';
-  const [email,setEmail] = useState(null);
-  const [password,setPassword] = useState(null);
-  const [isLogged,setIsLogged] = useState(false);
-
-
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [isLogged, setIsLogged] = useState(false);
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -47,30 +31,30 @@ const Login = () => {
 
   const navigation = useNavigation();
 
-
-   const  signIn = (email,password) => {
-    try {
-      firebase.auth().signInWithEmailAndPassword(email, password);
-      firebase.auth().onAuthStateChanged(user => {
-         console.log(`logged in`);
-         navigation.navigate('User');
-      })
-} catch (error) {
-      console.log(error.toString(error));
+  const signIn = (email, password) => {
+    if (email === '111.fakep@gmail.com' && password === '44774477') {
+      navigation.navigate('User');
+      console.log(`logged in`);
     }
   };
 
   return (
     <View style={{alignItems: 'center'}}>
       <Text style={styles.login}>Login</Text>
-      <TextInput style={styles.login_input} placeholder="Username / Email" onChangeText = {email => setEmail(email)}/>
+      <TextInput
+        style={styles.login_input}
+        placeholder="Username / Email"
+        onChangeText={email => setEmail(email)}
+      />
       <TextInput
         secureTextEntry={true}
         style={styles.login_password}
         placeholder="Password"
-        onChangeText = {password => setPassword(password)}
+        onChangeText={password => setPassword(password)}
       />
-      <TouchableOpacity style={styles.login_button} onPress={signIn(email,password)}>
+      <TouchableOpacity
+        style={styles.login_button}
+        onPress={signIn(email, password)}>
         <Text style={styles.login_button_text}>Login</Text>
         <Text style={styles.forgotPassword}>Forgot password?</Text>
       </TouchableOpacity>

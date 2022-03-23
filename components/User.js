@@ -17,6 +17,8 @@ import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete'
 import Login from './Login.js';
 
 import {useNavigation} from '@react-navigation/native';
+import {db} from '../firebase';
+import {addDoc, collection} from 'firebase/firestore/lite';
 
 // const Drawer = createDrawerNavigator();
 
@@ -82,6 +84,19 @@ const User = () => {
     });
   };
 
+  const submitForm = async () => {
+    try {
+      const docRef = await addDoc(collection(db, 'userData'), {
+        first: 'Ada',
+        last: 'Lovelace',
+        born: 1815,
+      });
+      console.log(docRef.id);
+      navigation.navigate('Suggestion', {otherParam: value});
+    } catch (e) {
+      console.error('Error adding document: ', e);
+    }
+  };
 
   return (
     <SafeAreaView>
@@ -141,7 +156,7 @@ const User = () => {
             style={styles.requirements}
             placeholder="Additional Information"
           />
-          <TouchableOpacity style={styles.submit} >
+          <TouchableOpacity style={styles.submit} onPress={submitForm}>
             <Text style={{color: 'white', marginTop: 7, fontSize: 15}}>
               Submit
             </Text>
