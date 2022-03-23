@@ -14,6 +14,11 @@ import {Dropdown} from 'react-native-element-dropdown';
 import ImagePicker from 'react-native-image-picker';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import AudioRecord from 'react-native-audio-record';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import Login from './Login.js';
+
+const Drawer = createDrawerNavigator();
+
 
 const data = [
   {label: 'Earthquake', value: 'Earthquake'},
@@ -103,16 +108,26 @@ const User = () => {
               textColor: '#ffffff',
             }}
           />
+          <Drawer.Navigator>
+            <Drawer.Screen name="Login" component={Login} />
+          </Drawer.Navigator>
           <Text style={styles.location}>{location}</Text>
           <View style={{marginLeft: 50,marginRight:50,top: 50,}}>
             <Text>{image.uri}</Text>
           </View>
+          <View style={styles.imageUploadContainer}>
           <TouchableOpacity style={styles.uploadImage} onPress={selectImage}>
-            <Text style={{marginTop: 5,fontSize: 15}}>Upload Image</Text>
+            <Text style={{marginTop: 5,fontSize: 15,color:'white'}}>Upload Image</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.uploadAudio} >
+          </View>
+          <View style={[styles.imageUploadContainer, {marginTop:60,}]}>
+          <TouchableOpacity style={[styles.uploadImage]} onPress={selectImage}>
+            <Text style={{marginTop: 5,fontSize: 15,color:'white'}}>Upload Audio</Text>
+          </TouchableOpacity>
+          </View>
+          {/* <TouchableOpacity style={styles.uploadAudio} >
             <Text style={{marginTop: 5,fontSize: 15}}>Upload Audio</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <Text style={styles.disaster}>Choose the type of disaster</Text>
           <Dropdown
             data={data}
@@ -122,6 +137,7 @@ const User = () => {
               setIsFocus(false);
             }}
             labelField="label"
+            selectedTextStyle={{color:'#191F36'}}
             valueField="value"
             style={[styles.dropdown, isFocus && {borderColor: 'gray'}]}
           />
@@ -138,7 +154,7 @@ const User = () => {
             placeholder="Additional Information"
           />
           <TouchableOpacity style={styles.submit}>
-            <Text style={{color: 'white', marginTop: 5,fontSize: 15}}>Submit</Text>
+            <Text style={{color: 'white', marginTop: 7,fontSize: 15}}>Submit</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -158,10 +174,10 @@ const styles = StyleSheet.create({
   uploadImage: {
     width: 240,
     height: 35,
-    left: 90,
-    top: 200,
+    top: 100,
     alignItems: 'center',
-    backgroundColor: '#00B4D8',
+    backgroundColor: '#001061',
+    borderRadius: 60,
   },
   uploadAudio: {
     width: 240,
@@ -169,11 +185,11 @@ const styles = StyleSheet.create({
     left: 90,
     top: 365,
     alignItems: 'center',
-    backgroundColor: '#00B4D8',
+    backgroundColor: '#001061',
   },
   dropdown: {
     width: 300,
-    top: 450,
+    top: 170,
     borderColor: '#7a7a7a',
     borderRadius: 60,
     borderWidth: 1.2,
@@ -183,7 +199,7 @@ const styles = StyleSheet.create({
   },
   dropdown2: {
     width: 300,
-    top: 530,
+    top: 230,
     borderColor: '#7a7a7a',
     borderRadius: 60,
     borderWidth: 1.2,
@@ -193,7 +209,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   requirements: {
-    top: 620,
+    top: 280,
     width: 300,
     left: 60,
     height: 40,
@@ -202,31 +218,44 @@ const styles = StyleSheet.create({
     fontSize: 15,
     borderRadius: 60,
     paddingLeft: 20,
+    color:'blue',
   },
   submit: {
-    width: 240,
-    height: 35,
-    left: 90,
-    top: 680,
+    width: 300,
+    height: 40,
+    left: 60,
+    top: 330,
     alignItems: 'center',
     backgroundColor: '#001061',
     fontSize: 15,
+    borderRadius: 60,
   },
   disaster: {
-    top: 420,
+    top: 150,
     left: 65,
     fontSize: 17,
+    color: '#010725',
   },
   people: {
-    top: 500,
+    top: 210,
     left: 65,
-    fontSize: 17,
+    fontSize: 17,color: '#010725',
   },
   additional: {
-    top: 580,
+    top: 260,
     left: 65,
-    fontSize: 17,
+    fontSize: 17,color: '#010725',
   },
+  imageUploadContainer: {
+width: 300,
+height: 157,
+left: 50,
+top: 92,
+borderWidth: 1,
+borderRadius: 8,
+borderColor: '#7a7a7a',
+alignItems: 'center',
+  }
 });
 
 export default User;
