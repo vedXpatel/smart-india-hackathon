@@ -33,7 +33,7 @@ const Login = () => {
 
   const signIn = (email, password) => {
     if (email === '111.fakep@gmail.com' && password === '44774477') {
-      navigation.navigate('User');
+      navigation.navigate('AdminMain');
       console.log(`logged in`);
     }
   };

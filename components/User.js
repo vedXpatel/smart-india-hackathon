@@ -33,30 +33,13 @@ const data = [
   {label: 'LandSlides', value: 'LandSlides'},
 ];
 
-// import {initializeApp} from 'firebase/app';
-// import {getFirestore} from 'firebase/firestore';
-// import {collection, addDoc} from 'firebase/firestore';
-
-// const app = initializeApp(firebaseConfig);
-
-// const db = getFirestore(app);
-
-// const firebaseConfig = {
-//   apiKey: 'AIzaSyC6Kl26Y1kY35DRudHAsXA9EjHE0zu4Wvo',
-//   authDomain: 'disaster-data-extraction.firebaseapp.com',
-//   databaseURL: 'https://disaster-data-extraction-default-rtdb.firebaseio.com',
-//   projectId: 'disaster-data-extraction',
-//   storageBucket: 'disaster-data-extraction.appspot.com',
-//   messagingSenderId: '403244136343',
-//   appId: '1:403244136343:web:90b7b6190ee0e49533b6d2',
-//   measurementId: 'G-HMEZSZZ1DX',
-// };
-
 const User = () => {
   const [value, setValue] = useState('');
   const [isFocus, setIsFocus] = useState(false);
   const [avatar, setAvatar] = useState(null);
   const [image, setImage] = useState('');
+  const [number, setNumber] = useState(0);
+  const [requirements, setRequirements] = useState('');
 
   const navigation = useNavigation();
 
@@ -85,11 +68,15 @@ const User = () => {
   };
 
   const submitForm = async () => {
+    const data = {};
+
     try {
       const docRef = await addDoc(collection(db, 'userData'), {
-        first: 'Ada',
-        last: 'Lovelace',
-        born: 1815,
+        Disaster: value,
+        Image: image,
+        Location: 'Mumbai, India',
+        People: number,
+        Requirements: requirements,
       });
       console.log(docRef.id);
       navigation.navigate('Suggestion', {otherParam: value});
@@ -148,13 +135,20 @@ const User = () => {
             style={[styles.dropdown, isFocus && {borderColor: 'gray'}]}
           />
           <Text style={styles.people}>Number of people involved</Text>
-          <TextInput style={styles.dropdown2} placeholder="" />
+          <TextInput
+            style={styles.dropdown2}
+            placeholder=""
+            onChangeText={(text) => {
+              setNumber(text);
+            }}
+          />
           <Text style={styles.additional}>
             Additional Information / Requirements
           </Text>
           <TextInput
             style={styles.requirements}
             placeholder="Additional Information"
+            onChangeText={text => setRequirements(text)}
           />
           <TouchableOpacity style={styles.submit} onPress={submitForm}>
             <Text style={{color: 'white', marginTop: 7, fontSize: 15}}>
