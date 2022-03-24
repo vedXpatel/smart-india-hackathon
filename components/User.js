@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {
   Text,
   TextInput,
@@ -23,7 +23,7 @@ import {db} from '../firebase';
 import {addDoc, collection} from 'firebase/firestore/lite';
 // import Geolocation from 'react-native-geolocation-service';
 import Geolocation from '@react-native-community/geolocation';
-
+import DocumentPicker from 'react-native-document-picker';
 
 // const Drawer = createDrawerNavigator();
 
@@ -45,16 +45,53 @@ const User = () => {
   const [image, setImage] = useState('');
   const [number, setNumber] = useState(0);
   const [requirements, setRequirements] = useState('');
-  const [location,setLocation] = useState('');
+  const [location,setLocation] = useState([]);
+  const [latitude,setLatitude] = useState([]);
   const navigation = useNavigation();
-    
-  try{
-    Geolocation.getCurrentPosition(info => console.log(info));
-    console.log(location.toString());
-  } catch (e) {
-    setLocation("Permission Denied");
-    console.log(location);
-  }
+
+  const [multipleFile, setMultipleFile] = useState([]);
+ 
+
+  const selectMultipleFile = async () => {
+    //Opening Document Picker for selection of multiple file
+    try {
+      const results = await DocumentPicker.pickMultiple({
+        type: [DocumentPicker.types.images],
+        //There can me more options as well find above
+      });
+      for (const res of results) {
+        //Printing the log realted to the file
+        console.log('res : ' + JSON.stringify(res));
+        console.log('URI : ' + res.uri);
+        console.log('Type : ' + res.type);
+        console.log('File Name : ' + res.name);
+        console.log('File Size : ' + res.size);
+      }
+      //Setting the state to show multiple file attributes
+      setMultipleFile(results);
+    } catch (err) {
+      //Handling any exception (If any)
+      if (DocumentPicker.isCancel(err)) {
+        //If user canceled the document selection
+        alert('Canceled from multiple doc picker');
+      } else {
+        //For Unknown Error
+        alert('Unknown Error: ' + JSON.stringify(err));
+        throw err;
+      }
+    }
+  };
+
+  useEffect(()=>{
+    try{
+      Geolocation.getCurrentPosition(info => {setLocation(JSON.stringify(info.coords.longitude));
+      setLatitude(JSON.stringify(info.coords.latitude))});
+      // console.log(location.toString());
+    } catch (e) {
+      setLocation("Permission Denied");
+      // console.log(location);
+    }
+  },[])
 
 
   const selectImage = () => {
@@ -82,7 +119,6 @@ const User = () => {
   };
 
   const submitForm = async () => {
-    const data = {};
 
     try {
       const docRef = await addDoc(collection(db, 'userData'), {
@@ -112,7 +148,8 @@ const User = () => {
             }}
           />
 
-          <Text style={styles.location}>{location}</Text>
+          <Text style={styles.location}>Longitude: {location} </Text>
+          <Text style={styles.location}>Latitude: {latitude} </Text>
           <View style={{marginLeft: 50, marginRight: 50, top: 50}}>
             <Text>{image.uri}</Text>
           </View>
@@ -126,7 +163,7 @@ const User = () => {
           <View style={[styles.imageUploadContainer, {marginTop: 60}]}>
             <TouchableOpacity
               style={[styles.uploadImage]}
-              onPress={selectImage}>
+              onPress={selectMultipleFile }>
               <Text style={{marginTop: 5, fontSize: 15, color: 'white'}}>
                 Upload Audio
               </Text>
@@ -177,7 +214,7 @@ const User = () => {
 
 const styles = StyleSheet.create({
   location: {
-    left: 170,
+    left: 100,
     top: 60,
     fontFamily: 'Inter',
     fontStyle: 'normal',
