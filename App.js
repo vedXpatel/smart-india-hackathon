@@ -12,11 +12,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-// import Login from './components/Login.js';
-// import User from './components/User.js';
-// import Suggestion from './components/Suggestion.js';
-// import AdminMain from './components/AdminMain.js';
-import AdminInfo from './components/AdminInfo.js';
+import Login from './components/Login.js';
+import User from './components/User.js';
+import Suggestion from './components/Suggestion.js';
+import AdminMain from './components/AdminMain.js';
 
 
 import {NavigationContainer} from '@react-navigation/native';
@@ -42,10 +41,10 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName = "Login">
         {/* <Stack.Screen name="Login" component={Login} /> */}
-        {/* <Stack.Screen name="User" component={User} /> */}
+        <Stack.Screen name="User" component={User} />
         {/* <Stack.Screen name="Suggestion" component={Suggestion} /> */}
         {/* <Stack.Screen name="AdminMain" component={AdminMain} /> */}
-        <Stack.Screen name="AdminInfo" component={AdminInfo} />
+        {/* <Stack.Screen name="AdminInfo" component={AdminInfo} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -14,10 +14,21 @@ import {
 import { collection, getDocs } from "firebase/firestore"; 
 import {Header, Icon} from 'react-native-elements';
 import {db} from '../firebase';
+// import {database} from './firebaseNew';
 
 const querySnapshot = getDocs(collection(db,'userData'));
 
+
+
 const AdminMain = () => {
+
+  const readData = ref(db,'victims/')
+  onValue(readData,(snapshot) => {
+      const data = snapshot.val();
+      setInfo(postElement,data);
+  })
+
+  console.log(info);
   const [dataArray,setDataArray] = useState([]);
     // useEffect(() => {
     //     db.ref('userData').once('value', function (snapshot) {

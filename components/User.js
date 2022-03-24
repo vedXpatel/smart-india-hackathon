@@ -24,8 +24,13 @@ import {addDoc, collection} from 'firebase/firestore/lite';
 // import Geolocation from 'react-native-geolocation-service';
 import Geolocation from '@react-native-community/geolocation';
 import DocumentPicker from 'react-native-document-picker';
+// import {Notifications, Notification} from 'react-native-notifications';
+// import PushNotification from 'react-native-push-notification';
+import {LocalNotification} from './LocalNotification';
+import axios from 'axios';
 
 // const Drawer = createDrawerNavigator();
+
 
 const data = [
   {label: 'Earthquake', value: 'Earthquake'},
@@ -37,6 +42,8 @@ const data = [
   {label: 'Heat Waves', value: 'Heat Waves'},
   {label: 'LandSlides', value: 'LandSlides'},
 ];
+
+
 
 const User = () => {
   const [value, setValue] = useState('');
@@ -50,6 +57,14 @@ const User = () => {
   const navigation = useNavigation();
 
   const [multipleFile, setMultipleFile] = useState([]);
+
+  const handleNotification = () => {
+      LocalNotification();
+  }
+
+  axios.get('https://api.openweathermap.org/data/2.5/forecast?lat='+latitude+'&lon='+location+'&appid=c00ade2e07b8527a06d0b858815fd0f7').then((response) => {
+    console.log(response.data);
+  });
  
 
   const selectMultipleFile = async () => {
