@@ -7,6 +7,8 @@ import {
   ScrollView,
   View,
   SafeAreaView,
+  Platform,
+  PermissionsAndroid
 } from 'react-native';
 import {Header, Icon} from 'react-native-elements';
 import {Dropdown} from 'react-native-element-dropdown';
@@ -19,6 +21,9 @@ import Login from './Login.js';
 import {useNavigation} from '@react-navigation/native';
 import {db} from '../firebase';
 import {addDoc, collection} from 'firebase/firestore/lite';
+// import Geolocation from 'react-native-geolocation-service';
+import Geolocation from '@react-native-community/geolocation';
+
 
 // const Drawer = createDrawerNavigator();
 
@@ -40,8 +45,17 @@ const User = () => {
   const [image, setImage] = useState('');
   const [number, setNumber] = useState(0);
   const [requirements, setRequirements] = useState('');
-
+  const [location,setLocation] = useState('');
   const navigation = useNavigation();
+    
+  try{
+    Geolocation.getCurrentPosition(info => console.log(info));
+    console.log(location.toString());
+  } catch (e) {
+    setLocation("Permission Denied");
+    console.log(location);
+  }
+
 
   const selectImage = () => {
     const options = {
@@ -98,7 +112,7 @@ const User = () => {
             }}
           />
 
-          <Text style={styles.location}></Text>
+          <Text style={styles.location}>{location}</Text>
           <View style={{marginLeft: 50, marginRight: 50, top: 50}}>
             <Text>{image.uri}</Text>
           </View>
