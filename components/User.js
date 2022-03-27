@@ -62,8 +62,11 @@ const User = () => {
       LocalNotification();
   }
 
+  const [weatherNotification,setWeatherNotification] = useState('');
+
   axios.get('https://api.openweathermap.org/data/2.5/forecast?lat='+latitude+'&lon='+location+'&appid=c00ade2e07b8527a06d0b858815fd0f7').then((response) => {
     console.log(response.data);
+    setWeatherNotification(response.data.alert);
   });
  
 
@@ -135,19 +138,19 @@ const User = () => {
 
   const submitForm = async () => {
 
-    try {
-      const docRef = await addDoc(collection(db, 'userData'), {
-        Disaster: value,
-        Image: image,
-        Location: 'Mumbai, India',
-        People: number,
-        Requirements: requirements,
-      });
-      console.log(docRef.id);
+    // try {
+    //   const docRef = await addDoc(collection(db, 'userData'), {
+    //     Disaster: value,
+    //     Image: image,
+    //     Location: 'Mumbai, India',
+    //     People: number,
+    //     Requirements: requirements,
+    //   });
+    //   console.log(docRef.id);
       navigation.navigate('Suggestion', {otherParam: value});
-    } catch (e) {
-      console.error('Error adding document: ', e);
-    }
+    // } catch (e) {
+    //   console.error('Error adding document: ', e);
+    // }
   };
 
   return (
