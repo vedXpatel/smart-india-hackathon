@@ -19,6 +19,8 @@ import {useNavigation} from '@react-navigation/native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
+import LoginScreen from "react-native-login-screen";
+
 const Login = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const [email, setEmail] = useState(null);
@@ -39,30 +41,27 @@ const Login = () => {
   };
 
   return (
-    <View style={{alignItems: 'center'}}>
-      <Text style={styles.login}>Login</Text>
-      <TextInput
-        style={styles.login_input}
-        placeholder="Username / Email"
-        onChangeText={email => setEmail(email)}
-      />
-      <TextInput
-        secureTextEntry={true}
-        style={styles.login_password}
-        placeholder="Password"
-        onChangeText={password => setPassword(password)}
-      />
-      <TouchableOpacity
-        style={styles.login_button}
-        onPress={signIn(email, password)}>
-        <Text style={styles.login_button_text}>Login</Text>
-        <Text style={styles.forgotPassword}>Forgot password?</Text>
-      </TouchableOpacity>
+    <View style = {styles.loginView}>
+    <LoginScreen
+  logoImageSource={require("../images/ndrf.png")}
+  onLoginPress={() => {}}
+  onHaveAccountPress={() => {}}
+  onEmailChange={(email) => {}}
+  onPasswordChange={(password) => {}}
+  disableSocialButtons
+/>
     </View>
+    
   );
 };
 
 const styles = StyleSheet.create({
+
+  loginView:{
+    height:5000,
+    marginTop: 150,
+
+  },
   login: {
     position: 'absolute',
     fontFamily: 'Inter-Regular',

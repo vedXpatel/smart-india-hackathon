@@ -7,6 +7,7 @@ import {
   ScrollView,
   View,
   SafeAreaView,
+  Image,
   Platform,
   PermissionsAndroid
 } from 'react-native';
@@ -28,6 +29,8 @@ import DocumentPicker from 'react-native-document-picker';
 // import PushNotification from 'react-native-push-notification';
 import {LocalNotification} from './LocalNotification';
 import axios from 'axios';
+
+import MapView, {Marker} from 'react-native-maps';
 
 // const Drawer = createDrawerNavigator();
 
@@ -156,18 +159,22 @@ const User = () => {
   return (
     <SafeAreaView>
       <ScrollView>
-        <View style={{height: 1100}}>
+        <View style={{height: 1500}}>
           <Header
-            leftComponent={{text: 'User', style: {color: '#fff', fontSize: 20}}}
+            leftComponent={{text: 'Home', style: {color: '#fff', fontSize: 20}}}
             containerStyle={{
               backgroundColor: '#03045E',
               justifyContent: 'space-around',
               textColor: '#ffffff',
             }}
           />
-
-          <Text style={styles.location}>Longitude: {location} </Text>
-          <Text style={styles.location}>Latitude: {latitude} </Text>
+          <Text style={styles.verifyArea}>Verify your Area</Text>
+<Text style={styles.location}>Your Location:</Text>
+<Image source={require('../images/map.jpg')} style={{height:300,width:300,left:50,position:'relative',top: 100,marginBottom:40,borderWidth:0.3,borderColor:'black',borderRadius:8,}}/>
+{/* <Text style={styles.location}>Longitude: {location} </Text>
+          <Text style={styles.location}>Latitude: {latitude} </Text> */}
+          <Text style={styles.beforeText}>Help us know more</Text>
+       
           <View style={{marginLeft: 50, marginRight: 50, top: 50}}>
             <Text>{image.uri}</Text>
           </View>
@@ -230,14 +237,114 @@ const User = () => {
   );
 };
 
+const mapStyle = [
+  {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
+  {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
+  {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
+  {
+    featureType: 'administrative.locality',
+    elementType: 'labels.text.fill',
+    stylers: [{color: '#d59563'}],
+  },
+  {
+    featureType: 'poi',
+    elementType: 'labels.text.fill',
+    stylers: [{color: '#d59563'}],
+  },
+  {
+    featureType: 'poi.park',
+    elementType: 'geometry',
+    stylers: [{color: '#263c3f'}],
+  },
+  {
+    featureType: 'poi.park',
+    elementType: 'labels.text.fill',
+    stylers: [{color: '#6b9a76'}],
+  },
+  {
+    featureType: 'road',
+    elementType: 'geometry',
+    stylers: [{color: '#38414e'}],
+  },
+  {
+    featureType: 'road',
+    elementType: 'geometry.stroke',
+    stylers: [{color: '#212a37'}],
+  },
+  {
+    featureType: 'road',
+    elementType: 'labels.text.fill',
+    stylers: [{color: '#9ca5b3'}],
+  },
+  {
+    featureType: 'road.highway',
+    elementType: 'geometry',
+    stylers: [{color: '#746855'}],
+  },
+  {
+    featureType: 'road.highway',
+    elementType: 'geometry.stroke',
+    stylers: [{color: '#1f2835'}],
+  },
+  {
+    featureType: 'road.highway',
+    elementType: 'labels.text.fill',
+    stylers: [{color: '#f3d19c'}],
+  },
+  {
+    featureType: 'transit',
+    elementType: 'geometry',
+    stylers: [{color: '#2f3948'}],
+  },
+  {
+    featureType: 'transit.station',
+    elementType: 'labels.text.fill',
+    stylers: [{color: '#d59563'}],
+  },
+  {
+    featureType: 'water',
+    elementType: 'geometry',
+    stylers: [{color: '#17263c'}],
+  },
+  {
+    featureType: 'water',
+    elementType: 'labels.text.fill',
+    stylers: [{color: '#515c6d'}],
+  },
+  {
+    featureType: 'water',
+    elementType: 'labels.text.stroke',
+    stylers: [{color: '#17263c'}],
+  },
+];
+
+
 const styles = StyleSheet.create({
-  location: {
-    left: 100,
+  mapStyle: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  verifyArea: {
     top: 60,
-    fontFamily: 'Inter',
+    fontSize: 30,
+    left:65,
+    color: '#010725',
+  },
+  location: {
+    top: 90,
     fontStyle: 'normal',
-    fontWeight: '400',
-    fontSize: 15,
+    left: 65,
+    fontSize: 18,
+    color: '#010725',
+  },
+  beforeText:{
+    top: 80,
+    fontSize: 30,
+    left:65,
+    color: '#010725',
   },
   uploadImage: {
     width: 240,
