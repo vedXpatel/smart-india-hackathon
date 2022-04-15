@@ -19,12 +19,12 @@ import {useNavigation} from '@react-navigation/native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-import LoginScreen from "react-native-login-screen";
+import LoginScreen from 'react-native-login-screen';
 
 const Login = () => {
   const isDarkMode = useColorScheme() === 'dark';
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [emailLogin, setEmail] = useState(null);
+  const [passwordLogin, setPassword] = useState(null);
   const [isLogged, setIsLogged] = useState(false);
 
   const backgroundStyle = {
@@ -33,34 +33,35 @@ const Login = () => {
 
   const navigation = useNavigation();
 
-  const signIn = (email, password) => {
-    if (email === '111.fakep@gmail.com' && password === '44774477') {
+  const signIn = (emailLogin, passwordLogin) => {
+    if (emailLogin === '111.fakep@gmail.com' && passwordLogin === '44774477') {
       navigation.navigate('AdminMain');
       console.log(`logged in`);
     }
   };
 
   return (
-    <View style = {styles.loginView}>
-    <LoginScreen
-  logoImageSource={require("../images/ndrf.png")}
-  onLoginPress={() => {}}
-  onHaveAccountPress={() => {}}
-  onEmailChange={(email) => {}}
-  onPasswordChange={(password) => {}}
-  disableSocialButtons
-/>
+    <View style={styles.loginView}>
+      <LoginScreen
+        logoImageSource={require('../images/ndrf.png')}
+        onLoginPress={() => {signIn(emailLogin, passwordLogin)}}
+        onHaveAccountPress={() => {}}
+        onEmailChange={(email) => {
+          setEmail(email);
+        }}
+        onPasswordChange={(password) => {
+          setPassword(password);
+        }}
+        disableSocialButtons
+      />
     </View>
-    
   );
 };
 
 const styles = StyleSheet.create({
-
-  loginView:{
-    height:5000,
+  loginView: {
+    height: 5000,
     marginTop: 150,
-
   },
   login: {
     position: 'absolute',
